@@ -22,7 +22,8 @@ jobs:
 
      #finally build your app with the latest command
       - name: Build and test with Maven
-        run: mvn clean verify --file ./Backend/ # Exécute la commande Maven pour nettoyer, compiler et tester le code.
+        run: mvn -B verify sonar:sonar -Dsonar.projectKey=RiSolJu_DevOpsClass -Dsonar.organization=risolju -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}  --file ./simple-api/pom.xml
+        # Exécute la commande Maven pour nettoyer, compiler et tester le code.
         # define job to build and publish docker image
   build-and-push-docker-image:
     needs: test-backend
