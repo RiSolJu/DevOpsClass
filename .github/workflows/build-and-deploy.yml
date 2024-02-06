@@ -6,6 +6,12 @@ on:
       - main
 
 jobs:
+  # Job sans dépendances
+  trigger-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger build and deploy
+        run: echo "Trigger build and deploy"
   build-and-push-docker-image:
     needs: test-backend
     runs-on: ubuntu-22.04
