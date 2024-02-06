@@ -45,8 +45,8 @@ jobs:
           # Note: tags has to be all lower-case
           tags:  ${{secrets.DOCKERHUBNAME}}/backend:latest
 
-      - name: Build image and push database
+      # - name: Build image and push database
           # DO the same for database
 
-      - name: Build image and push httpd
+      #- name: Build image and push httpd
         # DO the same for httpd
