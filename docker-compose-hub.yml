@@ -1,0 +1,42 @@
+version: "3.7"
+
+services:
+  backend:
+    image: quentinles/backend:1.0
+    networks:
+      - app-network
+    depends_on:
+      - database
+    environment:
+      url: jdbc:postgresql://myapp:5432/db
+      user: usr
+      passwordd: pwd
+    hostname: backend
+
+  database:
+    image: quentinles/myapp:1.0
+    networks:
+      - app-network
+    volumes:
+      - data-postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: usr
+      POSTGRES_PASSWORD: pwd
+    hostname: myapp
+
+  httpd:
+    image: quentinles/myhttpserver:1.0
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+    depends_on:
+      - backend
+    hostname: myhttpserver
+
+networks:
+  app-network:
+
+volumes:
+  data-postgres:
