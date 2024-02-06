@@ -44,6 +44,8 @@ jobs:
           context: ./Backend
           # Note: tags has to be all lower-case
           tags:  ${{secrets.DOCKERHUBNAME}}/backend:latest
+          # build on feature branches, push only on main branch
+          push: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Build image and push database
         uses: docker/build-push-action@v3
@@ -52,6 +54,8 @@ jobs:
           context: ./BD_Postgres
           # Note: tags has to be all lower-case
           tags:  ${{secrets.DOCKERHUBNAME}}/myapp:latest
+          # build on feature branches, push only on main branch
+          push: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Build image and push httpd
         uses: docker/build-push-action@v3
@@ -60,3 +64,5 @@ jobs:
           context: ./ServeurApache
           # Note: tags has to be all lower-case
           tags:  ${{secrets.DOCKERHUBNAME}}/myhttpserver:latest
+          # build on feature branches, push only on main branch
+          push: ${{ github.ref == 'refs/heads/main' }}
