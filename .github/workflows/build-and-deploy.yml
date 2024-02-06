@@ -5,15 +5,9 @@ on:
     workflows: ["CI devops 2023 - Test Backend"]
     branches: [main ]
     types:
-        - completed
+        - completed 
 
 jobs:
-  # Job sans dépendances
-  trigger-build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger build and deploy
-        run: echo "Trigger build and deploy"
   build-and-push-docker-image:
     runs-on: ubuntu-22.04
     steps:
