@@ -30,3 +30,9 @@ Done.
 
 docker tag backend quentinles/backend:1.1
 docker push quentinles/backend:1.1 
+
+## 2-1 What are testcontainers?
+
+This is a way to test docker containers and to run them while testing them.
+
+
