@@ -3,7 +3,7 @@ on:
   #to begin you want to launch this job in main and develop
   push:
     branches:
-      main
+      main # Le flux de travail est déclenché lorsqu'un push est effectué sur la branche main.
   pull_request:
 
 jobs:
@@ -16,10 +16,37 @@ jobs:
      #do the same with another action (actions/setup-java@v3) that enable to setup jdk 17
       - name: Set up JDK 17
         uses: actions/setup-java@v3
-        with:
-          distribution: 'corretto'
-          java-version: '21'  
+        with: # Paramètres pour l'action setup-java.
+          distribution: 'corretto' # Spécifie la distribution JDK. Dans ce cas, il s'agit d'Amazon Corretto.
+          java-version: '21' # Spécifie la version du JDK à installer, dans ce cas JDK 17.
 
      #finally build your app with the latest command
       - name: Build and test with Maven
-        run: mvn clean verify --file ./Backend/
+        run: mvn clean verify --file ./Backend/ # Exécute la commande Maven pour nettoyer, compiler et tester le code.
+        # define job to build and publish docker image
+  build-and-push-docker-image:
+  needs: test-backend
+  # run only when code is compiling and tests are passing
+  runs-on: ubuntu-22.04
+
+  # steps to perform in job
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v2.5.0
+
+      - name: Login to DockerHub
+        run: docker login -u ${{ secrets.DOCKERHUBNAME }} -p ${{ secrets.DOCKERHUBSECRET }}
+
+    - name: Build image and push backend
+      uses: docker/build-push-action@v3
+      with:
+        # relative path to the place where source code with Dockerfile is located
+        context: ./Backend
+        # Note: tags has to be all lower-case
+        tags:  ${{secrets.DOCKERHUBNAME}}/backend:latest
+
+    - name: Build image and push database
+        # DO the same for database
+
+    - name: Build image and push httpd
+      # DO the same for httpd
