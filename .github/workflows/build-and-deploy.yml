@@ -1,13 +1,11 @@
 name: CI devops 2023 - Build and Push Docker Image
 
 on:
-  push:
-    branches:
-      - main
-    workflow_run:
-      workflows: ["CI devops 2023 - Test Backend"]
-      types:
-          - completed
+  workflow_run:
+    workflows: ["CI devops 2023 - Test Backend"]
+    branches: [main ]
+    types:
+        - completed
 
 jobs:
   # Job sans dépendances
