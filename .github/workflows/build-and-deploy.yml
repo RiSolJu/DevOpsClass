@@ -14,6 +14,9 @@ jobs:
         run: echo "Trigger build and deploy"
   build-and-push-docker-image:
     needs: test-backend
+    strategy:
+      matrix:
+        config: [test-backend.yml]
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
