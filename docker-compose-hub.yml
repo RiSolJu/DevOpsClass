@@ -2,19 +2,18 @@ version: "3.7"
 
 services:
   backend:
-    image: quentinles/backend:1.0
+    image: quentinles/backend:latest
     networks:
       - app-network
     depends_on:
       - database
     environment:
-      url: jdbc:postgresql://myapp:5432/db
+      url: jdbc:postgresql://database:5432/db
       user: usr
-      passwordd: pwd
-    hostname: backend
+      password: pwd
 
   database:
-    image: quentinles/myapp:1.0
+    image: quentinles/myapp:latest
     networks:
       - app-network
     volumes:
@@ -23,20 +22,18 @@ services:
       POSTGRES_DB: db
       POSTGRES_USER: usr
       POSTGRES_PASSWORD: pwd
-    hostname: myapp
 
   httpd:
-    image: quentinles/myhttpserver:1.0
+    image: quentinles/myhttpserver:latest
     ports:
       - "80:80"
     networks:
       - app-network
     depends_on:
       - backend
-    hostname: myhttpserver
 
   front:
-    image: quentinles/devopsfront:1.0
+    image: quentinles/devopsfront:latest
     networks:
       - app-network
 

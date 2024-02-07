@@ -1,8 +1,8 @@
 FROM postgres:14.1-alpine
 
 # Option pour la mise en place du postgres, le "$" indique une variable d'environnement 
-ENV POSTGRES_DB=db \
-   POSTGRES_USER=usr \
+ENV POSTGRES_DB=$POSTGRES_DB \
+   POSTGRES_USER=$POSTGRES_USER \
    POSTGRES_PASSWORD=$POSTGRES_PASSWORD
 
 
