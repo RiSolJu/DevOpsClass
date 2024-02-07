@@ -1,11 +1,11 @@
 name: CI devops 2023 - Deploy Docker Images
 
 on:
-  workflow_run:
-    workflows: ["CI devops 2023 - Build and Push Docker Image"]
-    branches: [main]
-    types:
-      - completed
+  push:
+    branches:
+      - main
+      - develop
+
 
 jobs:
   deploy:
