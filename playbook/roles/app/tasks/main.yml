@@ -6,5 +6,5 @@
       - name: app-network
     env:
       url: jdbc:postgresql://database:5432/db
-      user: "{{ db_user }}"
-      password: "{{ db_user }}"
+      user: "{{ db_usr }}"
+      password: "{{ db_pwd }}"
