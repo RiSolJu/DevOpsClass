@@ -1,6 +1,6 @@
 - name: Create container "front"
   community.docker.docker_container:
-    name: backend
+    name: front
     image: quentinles/devopsfront:latest
     networks:
       - name: app-network
