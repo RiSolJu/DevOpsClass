@@ -27,12 +27,6 @@ jobs:
           directory: playbook
           key: ${{secrets.SSH_PRIVATE_KEY}}
           inventory: |
-            all:
-              vars:
-                ansible_user: ${{ secrets.DEPLOYUSER }}
-                ansible_ssh_private_key: ${{ secrets.SSHKEYCENTOS }}
-              hosts:
-                prod:
-                  - ${{ secrets.DEPLOYHOST }}
-          known_hosts: ${{ secrets.DEPLOYHOST }}
+            [all]
+            ${{ secrets.DEPLOYHOST }}
           vault_password: ${{ secrets.VAULT_PASSWORD }}
