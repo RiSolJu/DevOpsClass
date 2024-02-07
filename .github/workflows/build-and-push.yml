@@ -38,3 +38,10 @@ jobs:
           context: ./ServeurApache
           tags:  ${{ secrets.DOCKERHUBNAME }}/myhttpserver:latest
           push: true
+
+      - name: Build and push front image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./devops-front
+          tags:  ${{ secrets.DOCKERHUBNAME }}/devopsfront:latest
+          push: true

@@ -33,6 +33,17 @@ services:
     depends_on:
       - backend
     hostname: myhttpserver
+  
+  front:
+    build:
+      context: ./devops-front
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+    depends_on:
+      - backend
+    hostname: myhttpserver
 
 networks:
   app-network:

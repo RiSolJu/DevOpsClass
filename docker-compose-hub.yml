@@ -35,6 +35,11 @@ services:
       - backend
     hostname: myhttpserver
 
+  front:
+    image: quentinles/devopsfront:1.0
+    networks:
+      - app-network
+
 networks:
   app-network:
 
