@@ -15,16 +15,16 @@ jobs:
       - name: Run playbook
         uses: dawidd6/action-ansible-playbook@v2
         with:
-          # Chemin du playbook
           playbook: deploy.yml
-          directory: ./playbook/
-          inventory:
+          directory: ./
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          inventory: |
             all:
               vars:
                 ansible_user: ${{ secrets.DEPLOYUSER }}
                 ansible_ssh_private_key: ${{ secrets.SSHKEYCENTOS }}
-              children:
+              hosts:
                 prod:
-                  hosts: ${{ secrets.DEPLOYHOST }}
-          vault_password: ${{ secrets.VAULTPASSWORD }}
+                  - ${{ secrets.DEPLOYHOST }}
           known_hosts: ${{ secrets.DEPLOYHOST }}
+          vault_password: ${{ secrets.VAULT_PASSWORD }}
