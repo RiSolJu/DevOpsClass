@@ -1,0 +1,10 @@
+- name: Create container "backend"
+  community.docker.docker_container:
+    name: backend
+    image: quentinles/backend:latest
+    networks:
+      - name: app-network
+    env:
+      url: jdbc:postgresql://database:5432/db
+      user: "{{ db_user }}"
+      password: "{{ db_user }}"

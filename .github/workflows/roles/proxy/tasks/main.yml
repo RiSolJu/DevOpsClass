@@ -1,0 +1,8 @@
+- name: Create container "httpd"
+  community.docker.docker_container:
+    name: httpd
+    image: quentinles/myhttpserver:latest
+    ports:
+      - "80:80"
+    networks:
+      - name: app-network

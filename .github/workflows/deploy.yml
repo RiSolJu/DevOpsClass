@@ -1,0 +1,30 @@
+name: CI devops 2023 - Deploy Docker Images
+
+on:
+  workflow_run:
+    workflows: ["CI devops 2023 - Build and Push Docker Image"]
+    branches: [main]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Run playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          # Chemin du playbook
+          playbook: deploy.yml
+          directory: ./
+          inventory:
+            all:
+              vars:
+                ansible_user: ${{ secrets.DEPLOYUSER }}
+                ansible_ssh_private_key: ${{ secrets.SSHKEYCENTOS }}
+              children:
+                prod:
+                  hosts: ${{ secrets.DEPLOYHOST }}
+          vault_password: ${{ secrets.VAULTPASSWORD }}
+          known_hosts: ${{ secrets.DEPLOYHOST }}
