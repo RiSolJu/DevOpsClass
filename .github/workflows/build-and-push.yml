@@ -1,5 +1,6 @@
 name: CI devops 2023 - Build and Push Docker Image
 
+# Quand le Test Back end sur la branch main se finis en completed :
 on:
   workflow_run:
     workflows: ["CI devops 2023 - Test Backend"]
@@ -9,19 +10,26 @@ on:
 
 jobs:
   build-and-push-docker-image:
+    # On lance un docker Ubuntu
     runs-on: ubuntu-22.04
-    #if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # Si c'était un succès alors on lance le code.
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
+      # On récupère le code
       - name: Checkout code
         uses: actions/checkout@v2.5.0
-
+      # On se connecte à Docker Hub avec les secrets github
       - name: Login to DockerHub
         run: docker login -u ${{ secrets.DOCKERHUBNAME }} -p ${{ secrets.DOCKERHUBSECRET }}
 
+      # On build puis on push ensuite les images du dossier en paramètre sur le docker Hub 
       - name: Build and push backend image
         uses: docker/build-push-action@v3
         with:
+          # Emplacement de l'image en local
           context: ./Backend
+          
+          # Docker hub
           tags:  ${{ secrets.DOCKERHUBNAME }}/backend:latest
           push: true
 

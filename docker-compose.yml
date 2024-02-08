@@ -1,18 +1,27 @@
+# On choisis la version de docker-compose
 version: "3.7"
 
+# On liste les dockers/"Service" a lancer
 services:
+  
+  # Le nom du service
   backend:
-    build:
-      context: ./Backend
+    # L'image a récupérer sur docker hub avec la version
+    image: quentinles/backend:latest
+
+    # L'ajouter au network "app-network"
     networks:
       - app-network
     depends_on:
       - database
-    hostname: backend
+    # On ajouter les variables d'environement
+    environment:
+      url: jdbc:postgresql://database:5432/db
+      user: usr
+      password: pwd
 
   database:
-    build:
-      context: ./BD_Postgres
+    image: quentinles/myapp:latest
     networks:
       - app-network
     volumes:
@@ -21,32 +30,25 @@ services:
       POSTGRES_DB: db
       POSTGRES_USER: usr
       POSTGRES_PASSWORD: pwd
-    hostname: myapp
 
   httpd:
-    build:
-      context: ./ServeurApache
+    image: quentinles/myhttpserver:latest
     ports:
       - "80:80"
     networks:
       - app-network
     depends_on:
       - backend
-    hostname: myhttpserver
-  
-  front:
-    build:
-      context: ./devops-front
-    ports:
-      - "80:80"
-    networks:
-      - app-network
-    depends_on:
-      - backend
-    hostname: myhttpserver
 
+  front:
+    image: quentinles/devopsfront:latest
+    networks:
+      - app-network
+
+# On crée le network pour permettre la communication entre les services
 networks:
   app-network:
 
+# On ajoute le volume pour que la database enregistre les données
 volumes:
   data-postgres:

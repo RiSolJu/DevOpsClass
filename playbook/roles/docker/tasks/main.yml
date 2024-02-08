@@ -1,27 +1,34 @@
+# Installe device-mapper-persistent-data via yum (gestionnaire de paquets de CentOS)
 - name: Install device-mapper-persistent-data
   yum:
     name: device-mapper-persistent-data
     state: latest
 
+# Installe lvm2 via yum
 - name: Install lvm2
   yum:
     name: lvm2
     state: latest
 
+# Ajoute le référentiel Docker à yum-config-manager
 - name: add repo docker
   command:
     cmd: sudo yum-config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
 
+# Installe Docker via yum
 - name: Install Docker
   yum:
     name: docker-ce
     state: present
 
+# Installe Python 3 via yum
 - name: Install python3
   yum:
     name: python3
     state: present
 
+# Installe le module docker Python avec pip (gestionnaire de paquets de Python)
+# Utilise pip3 (version Python 3) et spécifie l'interpréteur Python à utiliser
 - name: Install docker with Python 3
   pip:
     name: docker
@@ -29,6 +36,7 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3
 
+# S'assure que le service Docker est en cours d'exécution
 - name: Make sure Docker is running
   service: name=docker state=started
-  tags: docker
+  tags: docker  # Tags pour exécuter cette tâche avec un tag spécifique (docker)

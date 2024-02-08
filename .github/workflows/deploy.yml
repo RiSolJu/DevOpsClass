@@ -1,29 +1,42 @@
 name: CI devops 2023 - Deploy Docker Images
 
+# Quand on a build et push toutes les images docker en branche :
 on:
-  push:
-    branches:
-      - main
-      - develop
-
+  workflow_run:
+    workflows: ["CI devops 2023 - Build and Push Docker Image"]
+    branches: [main]
+    types:
+        - completed 
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    #if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # Si le dernier workflow était bien un succès
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
+      # oN récupère bien la dernière version du code
       - name: Checkout code
         uses: actions/checkout@v2.5.0
 
+      # On lance alors le playbook avec dawidd6 qui permet de simplifier l'utilisation de ansible
       - name: Run playbook
         uses: dawidd6/action-ansible-playbook@v2
         with:
+          # On donne le playbook des commandes à effectuer sur le serveur distant
           playbook: playbook.yml
           directory: playbook
+
+          # On donne la clé SSH pour se connecter au serveur distant
           key: ${{secrets.SSHKEYCENTOS}}
+
+          # On donne les adresses des serveurs distant
           inventory: |
             [all]
             ${{ secrets.DEPLOYHOST }}
+
+          # On ouvre le vault avec le mot de passe
           vault_password: ${{ secrets.VAULTPASSWORD }}
+
+          # On precise l'user avec lequel on doit se connecter sur le serveur distant
           options: |
             -u centos

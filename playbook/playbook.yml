@@ -1,8 +1,12 @@
 - hosts: all
   gather_facts: false
+  # Pour qu'ansible soit super user sur le serveur distant.
   become: true
+  # On utilise les vars du vaults pour l'environnement
   vars_files:
     - vault.yml
+
+  # Je lance tous mes rôles, qui correspondent à des tâches séparées.
   roles:
     - docker
     - network
